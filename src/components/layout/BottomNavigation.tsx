@@ -5,7 +5,7 @@ export function BottomNavigation() {
   return (
     <nav 
       aria-label="Navegación principal" 
-      className="sticky bottom-0 z-40 bg-card border-t border-line shadow-sticky pb-safe"
+      className="md:hidden sticky bottom-0 z-40 bg-card border-t border-line shadow-sticky pb-safe"
     >
       <ul className="flex justify-around items-center h-16">
         <li>
