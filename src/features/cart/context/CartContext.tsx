@@ -14,6 +14,7 @@ interface CartContextValue {
   clearCart: () => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext<CartContextValue | null>(null);
 
 function init(): CartState {

@@ -1,15 +1,49 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RootLayout } from './components/layout/RootLayout';
+import { Home } from './pages/Home';
+import { Products } from './pages/Products';
+import { Cart } from './pages/Cart';
+import { Checkout } from './pages/Checkout';
+import { About } from './pages/About'; 
+import { Contact } from './pages/Contact';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'products',
+        element: <Products />,
+      },
+      {
+        path: 'cart',
+        element: <Cart />,
+      },
+      {
+        path: 'checkout',
+        element: <Checkout />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: '*',
+        element: <Home />, // Redirige a Home para rutas no definidas
+      }
+    ],
+  },
+]);
+
 export function App() {
-  return (
-    <div className="mx-auto min-h-full max-w-[480px] bg-bg">
-      <h1 className="font-display font-extrabold text-3xl text-center mt-10">Bienvenidos a Vibora Padel Store</h1>
-      <div className="mt-8 flex flex-col items-center gap-4">
-        <p className="text-center text-muted">
-          Aquí podrás encontrar todo lo necesario para disfrutar del pádel, desde palas hasta accesorios. ¡Explora nuestra tienda y encuentra el equipo perfecto para ti!
-        </p>
-        <button className="bg-teal text-white px-4 py-2 rounded-lg font-bold hover:bg-teal-dark transition-colors">
-          Explorar Productos
-        </button>
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
