@@ -4,7 +4,7 @@ import { BottomNavigation } from './BottomNavigation';
 
 export function RootLayout() {
   return (
-    <div className="flex flex-col min-h-[100dvh] w-full max-w-md mx-auto bg-bg shadow-2xl relative overflow-hidden">
+    <div className="flex flex-col h-[100dvh] w-full max-w-md mx-auto bg-bg shadow-2xl relative overflow-hidden">
       <Header />
       
       {/* Contenedor principal scrollable */}
