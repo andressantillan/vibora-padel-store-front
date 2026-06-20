@@ -1,4 +1,3 @@
-import { ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export interface ProductCardProps {
@@ -40,13 +39,13 @@ export function ProductCard({ id, name, price, imageUrl, category }: ProductCard
           </p>
         </div>
         
-        <button 
-          className="mt-2 w-full flex items-center justify-center gap-2 bg-teal hover:bg-teal-dark text-white py-2 rounded-lg font-bold text-sm transition-colors active:scale-95"
-          aria-label={`Añadir ${name} al carrito`}
+        <Link 
+          to={`/products/${id}`}
+          className="mt-2 w-full flex items-center justify-center gap-2 bg-line-soft hover:bg-line text-ink py-2 rounded-lg font-bold text-sm transition-colors active:scale-95"
+          aria-label={`Ver opciones de ${name}`}
         >
-          <ShoppingCart size={16} />
-          <span>Añadir</span>
-        </button>
+          <span>Ver opciones</span>
+        </Link>
       </div>
     </article>
   );

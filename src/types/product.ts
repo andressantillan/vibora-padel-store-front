@@ -10,7 +10,6 @@ export interface ProductListItem {
   price_from: number;     // variants siempre cargadas ⇒ siempre presente
 }
 
-
 export interface ProductImage {
   url: string;
   is_main: boolean;
