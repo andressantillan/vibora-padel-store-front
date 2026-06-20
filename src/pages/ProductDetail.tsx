@@ -4,15 +4,21 @@ import { ChevronLeft, ShoppingCart } from "lucide-react";
 import { fetchProduct } from "../features/products/services/product.api";
 import { Spinner } from "../components/ui/Spinner";
 import type { ProductDetail as ProductDetailType, ProductVariant } from "../types/product";
+import { useCart } from "../features/cart/hooks/useCart";
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [product, setProduct] = useState<ProductDetailType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Agregar un estado local para confirmar la acción visualmente
+  const [added, setAdded] = useState(false);
 
   // Estado para la variante seleccionada
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+
+  const { addItem } = useCart();
 
   useEffect(() => {
     if (!slug) return;
@@ -52,14 +58,28 @@ export function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
-    // TODO: Integrar con Zustand / Context del carrito real
-    console.log("Añadiendo al carrito:", {
+
+    // Armar un label para la variante combinando atributos
+    const labelParts = [];
+    if (selectedVariant.weight) labelParts.push(`${selectedVariant.weight}g`);
+    if (selectedVariant.size) labelParts.push(selectedVariant.size);
+    if (selectedVariant.color) labelParts.push(selectedVariant.color);
+    const variantLabel = labelParts.length > 0 ? labelParts.join(" - ") : `Variante ${selectedVariant.id}`;
+
+    addItem({
       variantId: selectedVariant.id,
       productName: product.name,
+      productSlug: product.slug,
+      variantLabel,
       price: selectedVariant.price,
-      quantity: 1
+      imageUrl: mainImage,
+      quantity: 1,
+      available: selectedVariant.available
     });
-    alert(`Añadido al carrito: ${product.name} - Variante ID: ${selectedVariant.id}`);
+    
+    // Feedback visual temporal
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   };
 
   return (
@@ -153,11 +173,21 @@ export function ProductDetail() {
           <div className="fixed bottom-16 left-0 right-0 p-4 bg-card border-t border-line md:relative md:p-0 md:bg-transparent md:border-t-0 md:bottom-auto z-30">
             <button
               onClick={handleAddToCart}
-              disabled={!selectedVariant || selectedVariant.available === 0}
-              className="w-full md:w-auto md:px-12 flex items-center justify-center gap-2 bg-lime hover:bg-lime-dark text-teal-ink py-4 rounded-xl font-extrabold text-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(142,212,76,0.39)]"
+              disabled={!selectedVariant || selectedVariant.available === 0 || added}
+              className={`w-full md:w-auto md:px-12 flex items-center justify-center gap-2 py-4 rounded-xl font-extrabold text-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(142,212,76,0.39)] ${
+                added 
+                  ? 'bg-ink text-white' 
+                  : 'bg-lime hover:bg-lime-dark text-teal-ink'
+              }`}
             >
               <ShoppingCart size={24} />
-              <span>{selectedVariant && selectedVariant.available === 0 ? 'Sin Stock' : 'Añadir al Carrito'}</span>
+              <span>
+                {added 
+                  ? '¡Añadido!' 
+                  : selectedVariant && selectedVariant.available === 0 
+                    ? 'Sin Stock' 
+                    : 'Añadir al Carrito'}
+              </span>
             </button>
           </div>
         </section>

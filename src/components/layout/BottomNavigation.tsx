@@ -1,7 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Search, ShoppingCart } from 'lucide-react';
 
+import { useCart } from '../../features/cart/hooks/useCart';
+
 export function BottomNavigation() {
+  const { itemCount } = useCart();
+
   return (
     <nav 
       aria-label="Navegación principal" 
@@ -59,10 +63,11 @@ export function BottomNavigation() {
               <>
                 <div className="relative">
                   <ShoppingCart size={24} className={isActive ? 'fill-teal-ink' : ''} />
-                  {/* Badge placeholder */}
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-lime text-[9px] font-bold text-teal-ink">
-                    0
-                  </span>
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-lime text-[9px] font-bold text-teal-ink">
+                      {itemCount}
+                    </span>
+                  )}
                 </div>
                 <span className="text-[10px] uppercase tracking-wider">Carrito</span>
               </>
