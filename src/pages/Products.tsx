@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import { ProductCard } from "../components/ui/ProductCard";
-import { Spinner } from "../components/ui/Spinner";
-import { useProducts } from "../features/products/hooks/useProducts";
-import type { ProductCardProps } from "../components/ui/ProductCard";
+import { ProductCard } from '@/components/ui/ProductCard';
+import { Spinner } from '@/components/ui/Spinner';
+import { useProducts } from '@/features/products/hooks/useProducts';
+import type { ProductCardProps } from '@/components/ui/ProductCard';
 
 const CATEGORIES = [
   { id: '', label: 'Todos' },

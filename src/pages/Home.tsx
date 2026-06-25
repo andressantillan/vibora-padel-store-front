@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Hero } from '../components/home/Hero';
-import { CategoryRow } from '../components/home/CategoryRow';
-import { ProductCard } from '../components/ui/ProductCard';
-import { useProducts } from '../features/products/hooks/useProducts';
-import type { ProductListItem } from '../types/product';
-import { Spinner } from '../components/ui/Spinner';
+import { Hero } from '@/components/home/Hero';
+import { CategoryRow } from '@/components/home/CategoryRow';
+import { ProductCard } from '@/components/ui/ProductCard';
+import { useProducts } from '@/features/products/hooks/useProducts';
+import type { ProductListItem } from '@/types/product';
+import { Spinner } from '@/components/ui/Spinner';
 
 export function Home() {
   const { products, loading, error } = useProducts({});

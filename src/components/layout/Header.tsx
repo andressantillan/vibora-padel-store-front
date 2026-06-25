@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, ShoppingCart } from 'lucide-react';
-import { MobileMenu } from './MobileMenu';
+import { MobileMenu } from '@/components/layout/MobileMenu';
 
-import { useCart } from '../../features/cart/hooks/useCart';
+import { useCart } from '@/features/cart/hooks/useCart';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

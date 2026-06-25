@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, ShoppingCart } from "lucide-react";
-import { fetchProduct } from "../features/products/services/product.api";
-import { Spinner } from "../components/ui/Spinner";
-import type { ProductDetail as ProductDetailType, ProductVariant } from "../types/product";
-import { useCart } from "../features/cart/hooks/useCart";
+import { fetchProduct } from '@/features/products/services/product.api';
+import { Spinner } from '@/components/ui/Spinner';
+import type { ProductDetail as ProductDetailType, ProductVariant } from '@/types/product';
+import { useCart } from '@/features/cart/hooks/useCart';
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();

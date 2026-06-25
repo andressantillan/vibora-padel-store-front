@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { RootLayout } from './components/layout/RootLayout';
-import { Home } from './pages/Home';
-import { Products } from './pages/Products';
-import { ProductDetail } from './pages/ProductDetail';
-import { Cart } from './pages/Cart';
-import { Checkout } from './pages/Checkout';
-import { About } from './pages/About'; 
-import { Contact } from './pages/Contact';
+import { RootLayout } from '@/components/layout/RootLayout';
+import { Home } from '@/pages/Home';
+import { Products } from '@/pages/Products';
+import { ProductDetail } from '@/pages/ProductDetail';
+import { Cart } from '@/pages/Cart';
+import { Checkout } from '@/pages/Checkout';
+import { About } from '@/pages/About'; 
+import { Contact } from '@/pages/Contact';
 
 const router = createBrowserRouter([
   {

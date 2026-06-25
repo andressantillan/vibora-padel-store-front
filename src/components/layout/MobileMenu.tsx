@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Drawer } from '../ui/Drawer';
+import { Drawer } from '@/components/ui/Drawer';
 import { Info, HelpCircle } from 'lucide-react';
 
 interface MobileMenuProps {

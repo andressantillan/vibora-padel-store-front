@@ -1,6 +1,6 @@
-import { fetchProducts } from "../services/product.api.ts";
-import type { ProductListItem } from "../../../types/product";
-import type { Paginated } from "../../../types/pagination";
+import { fetchProducts } from '@/features/products/services/product.api.ts';
+import type { ProductListItem } from '@/types/product';
+import type { Paginated } from '@/types/pagination';
 import { useEffect, useState } from "react";
 
 export function useProducts(filters = {}) {

@@ -1,6 +1,6 @@
-import api from '../../../lib/axios';
-import type { ProductListItem, ProductDetail } from '../../../types/product';
-import type { Paginated } from '../../../types/pagination';
+import api from '@/lib/axios';
+import type { ProductListItem, ProductDetail } from '@/types/product';
+import type { Paginated } from '@/types/pagination';
 
 export interface ProductFilters {
   category?: string; // slug

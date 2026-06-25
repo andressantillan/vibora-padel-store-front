@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useCart } from '../features/cart/hooks/useCart';
+import { useCart } from '@/features/cart/hooks/useCart';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 
 export function Cart() {
