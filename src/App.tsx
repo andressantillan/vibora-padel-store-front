@@ -5,6 +5,8 @@ import { Products } from '@/pages/Products';
 import { ProductDetail } from '@/pages/ProductDetail';
 import { Cart } from '@/pages/Cart';
 import { Checkout } from '@/pages/Checkout';
+import { Success } from '@/pages/Success';
+import { PaymentStatus } from '@/pages/PaymentStatus';
 import { About } from '@/pages/About'; 
 import { Contact } from '@/pages/Contact';
 
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: 'checkout',
         element: <Checkout />,
+      },
+      {
+        path: 'success',
+        element: <Success />,
+      },
+      {
+        path: 'payment-status',
+        element: <PaymentStatus />,
       },
       {
         path: 'about',

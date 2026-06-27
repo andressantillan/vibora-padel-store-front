@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/archivo": "^5.2.8",
     "@fontsource/manrope": "^5.2.8",
+    "@mercadopago/sdk-react": "^1.0.7",
     "@tailwindcss/vite": "^4.3.0",
     "axios": "^1.17.0",
     "lucide-react": "^1.17.0",

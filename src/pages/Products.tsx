@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
 import { ProductCard } from '@/components/ui/ProductCard';
 import { Spinner } from '@/components/ui/Spinner';
 import { useProducts } from '@/features/products/hooks/useProducts';
@@ -16,7 +17,10 @@ export function Products() {
   const currentCategory = searchParams.get('category') || '';
 
   // Solo pasamos el filtro de categoría si existe uno seleccionado
-  const filters = currentCategory ? { category: currentCategory } : {};
+  const filters = useMemo(() => {
+    return currentCategory ? { category: currentCategory } : {};
+  }, [currentCategory]);
+  
   const { products, loading, error } = useProducts(filters);
 
   const handleCategoryChange = (categoryId: string) => {
