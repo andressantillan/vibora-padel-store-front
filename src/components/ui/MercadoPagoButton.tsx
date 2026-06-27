@@ -1,7 +1,7 @@
 import { Wallet } from "@mercadopago/sdk-react";
+import { initMercadoPago } from '@mercadopago/sdk-react';
 import { usePreferenceId } from "@/features/checkout/hooks/usePreferenceId";
 import type { CartItem } from "@/types/cart";
-
 
 
 interface MercadoPagoButtonProps {
@@ -9,7 +9,12 @@ interface MercadoPagoButtonProps {
 }
 
 export function MercadoPagoButton({ items }: MercadoPagoButtonProps) {
+    
     const { preferenceId, error } = usePreferenceId(items);
+    
+    initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, {
+        locale: "es-AR",
+    });
     
     return (
         <div className="flex flex-col justify-center items-center gap-4 mt-6">

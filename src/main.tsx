@@ -13,11 +13,6 @@ import '@fontsource/manrope/800.css';
 import './index.css';
 import { App } from '@/App';
 import { CartProvider } from '@/features/cart/context/CartContext';
-import { initMercadoPago } from '@mercadopago/sdk-react';
-
-initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, {
-    locale: "es-AR",
-});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
