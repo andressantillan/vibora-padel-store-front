@@ -15,6 +15,12 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+  server: {
+    headers: {
+      // Ensure Mercado Pago domains are whitelisted in your CSP header configuration
+      'Content-Security-Policy': "script-src 'self' https://mercadopago.com https://mercadopago.com 'unsafe-eval';",
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

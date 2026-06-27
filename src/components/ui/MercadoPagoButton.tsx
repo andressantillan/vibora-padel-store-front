@@ -1,10 +1,8 @@
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { Wallet } from "@mercadopago/sdk-react";
 import { usePreferenceId } from "@/features/checkout/hooks/usePreferenceId";
 import type { CartItem } from "@/types/cart";
 
-initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, {
-    locale: "es-AR",
-});
+
 
 interface MercadoPagoButtonProps {
     items: CartItem[];
