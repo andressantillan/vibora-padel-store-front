@@ -112,8 +112,13 @@ export function OrderTracking() {
               </div>
             </div>
 
-            {renderInfoBox("Información de Pago", <CreditCard size={20} className="text-teal" />, order.payment)}
-            {renderInfoBox("Información de Envío", <Truck size={20} className="text-teal" />, order.shipping)}
+            {renderInfoBox("Información de Pago", <CreditCard size={20} className="text-teal" />, 
+              order.payments && order.payments.length > 0 ? order.payments[0] : { estado: 'Pendiente de pago' }
+            )}
+            
+            {renderInfoBox("Información de Envío", <Truck size={20} className="text-teal" />, 
+              order.shipment ? order.shipment : { estado: 'Pendiente de preparación' }
+            )}
 
             <h3 className="font-bold text-ink flex items-center gap-2 mb-4">
               <Package size={20} className="text-teal" />

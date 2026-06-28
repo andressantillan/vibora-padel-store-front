@@ -8,5 +8,5 @@ export interface Brand {
   id: number;
   name: string;
   slug: string;
-  logo: string | null; // logo_url, puede no tener
+  logo_url: string | null; // logo_url, puede no tener
 }

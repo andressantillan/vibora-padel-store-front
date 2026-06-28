@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ChevronLeft, ShoppingCart } from "lucide-react";
+import { ChevronLeft, ShoppingCart, Minus, Plus } from "lucide-react";
 import { fetchProduct } from '@/features/products/services/product.api';
 import { Spinner } from '@/components/ui/Spinner';
 import type { ProductDetail as ProductDetailType, ProductVariant } from '@/types/product';
@@ -17,6 +17,9 @@ export function ProductDetail() {
 
   // Estado para la variante seleccionada
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  
+  // Estado para la cantidad a agregar
+  const [quantity, setQuantity] = useState(1);
 
   const { addItem } = useCart();
 
@@ -31,6 +34,7 @@ export function ProductDetail() {
         // Seleccionar la primera variante por defecto si existe
         if (data.variants && data.variants.length > 0) {
           setSelectedVariant(data.variants[0]);
+          setQuantity(1);
         }
       })
       .catch(() => setError("No se pudo cargar la información del producto."))
@@ -54,7 +58,7 @@ export function ProductDetail() {
     );
   }
 
-  const mainImage = product.images.find(img => img.is_main)?.url || product.images[0]?.url || '/placeholder.png';
+  const mainImage = product.images.find(img => img.is_main)?.url || product.images[0]?.url || '/placeholder.webp';
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
@@ -73,7 +77,7 @@ export function ProductDetail() {
       variantLabel,
       price: selectedVariant.price,
       imageUrl: mainImage,
-      quantity: 1,
+      quantity: quantity,
       available: selectedVariant.available
     });
     
@@ -83,7 +87,7 @@ export function ProductDetail() {
   };
 
   return (
-    <main className="flex-1 bg-bg pb-24 md:pb-8">
+    <main className="flex-1 bg-bg pb-52 md:pb-8">
       {/* Botón Volver */}
       <div className="px-4 py-4 md:px-8 max-w-5xl mx-auto">
         <Link to="/products" className="inline-flex items-center text-ink hover:text-teal transition-colors font-bold text-sm">
@@ -141,7 +145,10 @@ export function ProductDetail() {
                   return (
                     <button
                       key={variant.id}
-                      onClick={() => setSelectedVariant(variant)}
+                      onClick={() => {
+                        setSelectedVariant(variant);
+                        setQuantity(1);
+                      }}
                       disabled={variant.available === 0}
                       className={`px-4 py-2 rounded-xl border text-sm font-bold transition-all ${
                         isSelected 
@@ -171,6 +178,34 @@ export function ProductDetail() {
 
           {/* CTA Fixed en Mobile, Normal en Desktop */}
           <div className="fixed bottom-16 left-0 right-0 p-4 bg-card border-t border-line md:relative md:p-0 md:bg-transparent md:border-t-0 md:bottom-auto z-30">
+            
+            {/* Controles de Cantidad */}
+            {selectedVariant && selectedVariant.available > 0 && (
+              <div className="flex items-center gap-4 mb-4 md:mb-6">
+                <span className="font-bold text-ink">Cantidad:</span>
+                <div className="flex items-center gap-3 bg-bg border border-line rounded-xl px-2 py-1">
+                  <button 
+                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                    className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
+                  >
+                    <Minus size={20} />
+                  </button>
+                  <span className="font-bold text-ink w-6 text-center">{quantity}</span>
+                  <button 
+                    onClick={() => setQuantity(q => Math.min(selectedVariant.available, q + 1))}
+                    disabled={quantity >= selectedVariant.available}
+                    className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
+                  >
+                    <Plus size={20} />
+                  </button>
+                </div>
+                <span className="text-xs text-muted">
+                  ({selectedVariant.available} disponibles)
+                </span>
+              </div>
+            )}
+
             <button
               onClick={handleAddToCart}
               disabled={!selectedVariant || selectedVariant.available === 0 || added}

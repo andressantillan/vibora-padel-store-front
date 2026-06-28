@@ -230,7 +230,7 @@ export function Checkout() {
               {items.map(item => (
                 <li key={item.variantId} className="flex gap-4 items-center">
                   <div className="w-16 h-16 bg-line-soft rounded-lg p-1 shrink-0">
-                    <img src={item.imageUrl || '/placeholder.png'} alt={item.productName} className="w-full h-full object-contain" />
+                    <img src={item.imageUrl || '/placeholder.webp'} alt={item.productName} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-ink truncate text-sm">{item.productName}</p>

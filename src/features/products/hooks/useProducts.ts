@@ -1,9 +1,9 @@
-import { fetchProducts } from '@/features/products/services/product.api.ts';
+import { fetchProducts, type ProductFilters } from '@/features/products/services/product.api.ts';
 import type { ProductListItem } from '@/types/product';
 import type { Paginated } from '@/types/pagination';
 import { useEffect, useState } from "react";
 
-export function useProducts(filters = {}) {
+export function useProducts(filters: ProductFilters = {}) {
 
     const [products, setProducts] = useState<ProductListItem[]>([]);
     const [loading, setLoading] = useState(false);

@@ -42,7 +42,7 @@ export function Cart() {
             >
               <Link to={`/products/${item.productSlug}`} className="shrink-0 bg-line-soft rounded-xl p-2 w-24 h-24 flex items-center justify-center">
                 <img 
-                  src={item.imageUrl || '/placeholder.png'} 
+                  src={item.imageUrl || '/placeholder.webp'} 
                   alt={item.productName} 
                   className="w-full h-full object-contain"
                 />

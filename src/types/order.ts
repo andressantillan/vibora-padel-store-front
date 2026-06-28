@@ -37,8 +37,8 @@ export interface OrderResponse {
   id: number;
   code: string;
   status: string;       // statusLabel(), ya viene legible
-  payment?: Record<string, any>;
-  shipping?: Record<string, any>;
+  payments?: Record<string, any>[];
+  shipment?: Record<string, any>;
   subtotal: number;
   discount: number;
   total: number;
