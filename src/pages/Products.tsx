@@ -159,7 +159,7 @@ export function Products() {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => {
+          {products.map((product, index) => {
             const cardProps: ProductCardProps = {
               id: product.slug, // Usamos slug para la URL
               name: product.name,
@@ -167,6 +167,7 @@ export function Products() {
               imageUrl: product.image || '/placeholder.webp',
               category: product.category,
               brand: product.brand,
+              priority: index < 4,
             };
             return <ProductCard key={product.id} {...cardProps} />;
           })}

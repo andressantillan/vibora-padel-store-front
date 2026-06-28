@@ -7,9 +7,10 @@ export interface ProductCardProps {
   imageUrl: string;
   category?: string;
   brand?: string;
+  priority?: boolean;
 }
 
-export function ProductCard({ id, name, price, imageUrl, category, brand }: ProductCardProps) {
+export function ProductCard({ id, name, price, imageUrl, category, brand, priority = false }: ProductCardProps) {
   return (
     <article className="group flex flex-col bg-card rounded-brand-sm shadow-add overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-sticky">
       {/* Imagen del producto */}
@@ -17,7 +18,8 @@ export function ProductCard({ id, name, price, imageUrl, category, brand }: Prod
         <img 
           src={imageUrl} 
           alt={name} 
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          {...(priority ? { fetchPriority: "high" } : {})}
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
         />
         {category && (

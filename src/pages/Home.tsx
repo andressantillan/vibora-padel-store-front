@@ -60,6 +60,7 @@ export function Home() {
                 price={product.price_from}
                 category={product.category}
                 imageUrl={product.image || '/placeholder.webp'}
+                priority={true}
               />
             ))}
           </div>
