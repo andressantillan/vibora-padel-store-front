@@ -4,20 +4,20 @@ import type { CartItem } from '@/types/cart';
 
 // get cart items from local storage
 
-export function usePreferenceId(items: CartItem[]) {
+export function usePreferenceId(items: CartItem[], orderId: number) {
     const [preferenceId, setPreferenceId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const hasFetched = useRef(false);
 
     useEffect(() => {
-        if (!items || items.length === 0) return;
+        if (!items || items.length === 0 || !orderId) return;
         if (hasFetched.current) return;
 
         hasFetched.current = true;
 
         const fetchPreferenceId = async () => {
             try {
-                const { id } = await createPreference(items);
+                const { id } = await createPreference(items, orderId);
                 
                 if (id) {
                     setPreferenceId(id);
@@ -30,7 +30,7 @@ export function usePreferenceId(items: CartItem[]) {
             }
         };
         fetchPreferenceId();
-    }, [items]);
+    }, [items, orderId]);
 
     return { preferenceId, error };
 }

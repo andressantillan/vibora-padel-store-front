@@ -9,6 +9,7 @@ import { Success } from '@/pages/Success';
 import { PaymentStatus } from '@/pages/PaymentStatus';
 import { About } from '@/pages/About'; 
 import { Contact } from '@/pages/Contact';
+import { OrderTracking } from '@/pages/OrderTracking';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
       {
         path: 'contact',
         element: <Contact />,
+      },
+      {
+        path: 'tracking',
+        element: <OrderTracking />,
+      },
+      {
+        path: 'tracking/:code',
+        element: <OrderTracking />,
       },
       {
         path: '*',

@@ -8,6 +8,7 @@ export function Success() {
   const order = location.state?.order as OrderResponse | undefined;
   const shippingData = location.state?.shippingData;
   const cartItems = location.state?.cartItems || [];
+  const paymentMethod = location.state?.paymentMethod;
 
   // Si no hay orden en el estado, redirigir al inicio para evitar vistas vacías
   if (!order) {
@@ -24,9 +25,19 @@ export function Success() {
         <h1 className="font-display font-black text-3xl md:text-4xl text-ink mb-2">
           ¡Gracias por tu compra!
         </h1>
-        <p className="text-muted text-lg mb-8">
+        <p className="text-muted text-lg mb-4">
           Tu pedido <strong className="text-teal">#{order.id}</strong> ha sido procesado exitosamente.
         </p>
+
+        {order.code && (
+          <div className="bg-teal/10 border border-teal/20 rounded-2xl p-6 mb-8 w-full max-w-sm mx-auto">
+            <p className="text-sm font-bold text-teal-ink uppercase tracking-wider mb-2">Código de Seguimiento</p>
+            <p className="font-display font-black text-3xl text-ink tracking-widest">{order.code}</p>
+            <Link to={`/tracking/${order.code}`} className="mt-4 inline-flex items-center justify-center bg-teal text-white hover:bg-teal-dark font-bold py-2 px-4 rounded-xl transition-colors w-full">
+              Rastrear mi pedido
+            </Link>
+          </div>
+        )}
 
         {/* Resumen de la Orden */}
         <div className="bg-line-soft rounded-2xl p-6 text-left mb-8">
@@ -85,9 +96,16 @@ export function Success() {
           </div>
         )}
 
-        <div className="mb-8 p-6 bg-card border border-teal-ink/20 rounded-2xl shadow-sm">
-          <MercadoPagoButton items={cartItems.length > 0 ? cartItems : order.items || []} />
-        </div>
+        {paymentMethod && (paymentMethod.name.toLowerCase().includes('mercado') || paymentMethod.name.toLowerCase().includes('mp')) ? (
+          <div className="mb-8 p-6 bg-card border border-teal-ink/20 rounded-2xl shadow-sm">
+            <MercadoPagoButton items={cartItems.length > 0 ? cartItems : order.items || []} orderId={order.id} />
+          </div>
+        ) : (
+          <div className="mb-8 p-6 bg-teal/10 border border-teal/20 rounded-2xl text-center">
+            <p className="font-bold text-teal-ink mb-2">¡Casi listo!</p>
+            <p className="text-muted">Te enviaremos un email con los pasos a seguir para concretar el pago mediante {paymentMethod?.name || 'el método seleccionado'}.</p>
+          </div>
+        )}
 
         <Link
           to="/"

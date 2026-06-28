@@ -21,6 +21,7 @@ export interface OrderPayload {
   customer: OrderCustomerPayload;
   address: OrderAddressPayload;
   items: OrderItemPayload[];
+  payment_method_id?: number;
 }
 
 // Lo que devuelve OrderResource tras crear el pedido (para la confirmación)
@@ -34,7 +35,10 @@ export interface OrderResponseItem {
 
 export interface OrderResponse {
   id: number;
+  code: string;
   status: string;       // statusLabel(), ya viene legible
+  payment?: Record<string, any>;
+  shipping?: Record<string, any>;
   subtotal: number;
   discount: number;
   total: number;

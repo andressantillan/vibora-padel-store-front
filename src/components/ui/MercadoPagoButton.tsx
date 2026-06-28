@@ -6,11 +6,12 @@ import type { CartItem } from "@/types/cart";
 
 interface MercadoPagoButtonProps {
     items: CartItem[];
+    orderId: number;
 }
 
-export function MercadoPagoButton({ items }: MercadoPagoButtonProps) {
+export function MercadoPagoButton({ items, orderId }: MercadoPagoButtonProps) {
     
-    const { preferenceId, error } = usePreferenceId(items);
+    const { preferenceId, error } = usePreferenceId(items, orderId);
     
     initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, {
         locale: "es-AR",

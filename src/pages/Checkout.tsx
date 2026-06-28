@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../features/cart/hooks/useCart';
 import { createOrder } from '../features/checkout/services/orders.api';
+import { getPaymentMethods } from '../features/checkout/services/paymentMethods.api';
 import type { OrderPayload } from '../types/order';
+import type { PaymentMethod } from '../types/paymentMethod';
 import { Spinner } from '../components/ui/Spinner';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, CreditCard } from 'lucide-react';
 
 export function Checkout() {
   const navigate = useNavigate();
@@ -12,6 +14,27 @@ export function Checkout() {
   
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number | null>(null);
+  const [loadingPaymentMethods, setLoadingPaymentMethods] = useState(true);
+
+  useEffect(() => {
+    async function loadPaymentMethods() {
+      try {
+        const methods = await getPaymentMethods();
+        setPaymentMethods(methods);
+        if (methods.length > 0) {
+          setSelectedPaymentMethod(methods[0].id);
+        }
+      } catch (err) {
+        console.error('Error loading payment methods:', err);
+      } finally {
+        setLoadingPaymentMethods(false);
+      }
+    }
+    loadPaymentMethods();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -60,18 +83,21 @@ export function Checkout() {
       items: items.map(i => ({
         variant_id: i.variantId,
         quantity: i.quantity
-      }))
+      })),
+      payment_method_id: selectedPaymentMethod || undefined
     };
 
     try {
       const response = await createOrder(payload);
+      const selectedMethodObj = paymentMethods.find(m => String(m.id) === String(selectedPaymentMethod));
       clearCart();
       // Redirigir a Success pasando la orden devuelta, datos de envío y los items del carrito para MP
       navigate('/success', { 
         state: { 
           order: response,
           shippingData: payload.address,
-          cartItems: items
+          cartItems: items,
+          paymentMethod: selectedMethodObj
         }, 
         replace: true 
       });
@@ -148,6 +174,49 @@ export function Checkout() {
                 <input required type="text" name="postal_code" value={formData.postal_code} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="1043" />
               </div>
             </div>
+          </section>
+
+          {/* Método de Pago */}
+          <section className="bg-card p-6 md:p-8 rounded-3xl border border-line shadow-sm">
+            <h2 className="font-display font-bold text-xl text-ink mb-6 border-b border-line pb-2 flex items-center gap-2">
+              <CreditCard size={24} className="text-teal" />
+              Método de Pago
+            </h2>
+            {loadingPaymentMethods ? (
+              <div className="flex justify-center p-4"><Spinner /></div>
+            ) : paymentMethods.length > 0 ? (
+              <div className="space-y-4">
+                {paymentMethods.map(method => (
+                  <label 
+                    key={method.id}
+                    className={`flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      selectedPaymentMethod === method.id 
+                        ? 'border-teal bg-teal/5' 
+                        : 'border-line hover:border-teal/50'
+                    }`}
+                  >
+                    <div className="pt-1">
+                      <input 
+                        type="radio" 
+                        name="paymentMethod" 
+                        value={method.id}
+                        checked={selectedPaymentMethod === method.id}
+                        onChange={() => setSelectedPaymentMethod(method.id)}
+                        className="w-4 h-4 text-teal focus:ring-teal border-line"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-bold text-ink">{method.name}</p>
+                      {method.description && (
+                        <p className="text-sm text-muted mt-1">{method.description}</p>
+                      )}
+                    </div>
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted">No hay métodos de pago disponibles en este momento.</p>
+            )}
           </section>
 
         </div>
