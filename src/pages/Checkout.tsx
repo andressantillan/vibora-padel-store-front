@@ -135,20 +135,20 @@ export function Checkout() {
             <h2 className="font-display font-bold text-xl text-ink mb-6 border-b border-line pb-2">Datos Personales</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Nombre Completo *</label>
-                <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ej. Juan Pérez" />
+                <label htmlFor="checkout-name" className="text-sm font-bold text-ink">Nombre Completo *</label>
+                <input id="checkout-name" required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ej. Juan Pérez" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Correo Electrónico *</label>
-                <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="ejemplo@correo.com" />
+                <label htmlFor="checkout-email" className="text-sm font-bold text-ink">Correo Electrónico *</label>
+                <input id="checkout-email" required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="ejemplo@correo.com" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Teléfono *</label>
-                <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ej. 11 1234 5678" />
+                <label htmlFor="checkout-phone" className="text-sm font-bold text-ink">Teléfono *</label>
+                <input id="checkout-phone" required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ej. 11 1234 5678" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">DNI *</label>
-                <input required type="number" name="dni" value={formData.dni} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Sin puntos ni espacios" />
+                <label htmlFor="checkout-dni" className="text-sm font-bold text-ink">DNI *</label>
+                <input id="checkout-dni" required type="number" name="dni" value={formData.dni} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Sin puntos ni espacios" />
               </div>
             </div>
           </section>
@@ -158,20 +158,20 @@ export function Checkout() {
             <h2 className="font-display font-bold text-xl text-ink mb-6 border-b border-line pb-2">Dirección de Envío</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2 space-y-1">
-                <label className="text-sm font-bold text-ink">Calle y Número *</label>
-                <input required type="text" name="street" value={formData.street} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Av. Corrientes 1234, Depto 5B" />
+                <label htmlFor="checkout-street" className="text-sm font-bold text-ink">Calle y Número *</label>
+                <input id="checkout-street" required type="text" name="street" value={formData.street} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Av. Corrientes 1234, Depto 5B" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Ciudad *</label>
-                <input required type="text" name="city" value={formData.city} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ciudad Autónoma de BS.AS" />
+                <label htmlFor="checkout-city" className="text-sm font-bold text-ink">Ciudad *</label>
+                <input id="checkout-city" required type="text" name="city" value={formData.city} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Ciudad Autónoma de BS.AS" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Provincia *</label>
-                <input required type="text" name="province" value={formData.province} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Buenos Aires" />
+                <label htmlFor="checkout-province" className="text-sm font-bold text-ink">Provincia *</label>
+                <input id="checkout-province" required type="text" name="province" value={formData.province} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="Buenos Aires" />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-bold text-ink">Código Postal *</label>
-                <input required type="text" name="postal_code" value={formData.postal_code} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="1043" />
+                <label htmlFor="checkout-postal_code" className="text-sm font-bold text-ink">Código Postal *</label>
+                <input id="checkout-postal_code" required type="text" name="postal_code" value={formData.postal_code} onChange={handleChange} className="w-full bg-bg border border-line rounded-xl px-4 py-3 focus:outline-none focus:border-teal transition-colors" placeholder="1043" />
               </div>
             </div>
           </section>
