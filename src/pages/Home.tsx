@@ -3,30 +3,35 @@ import { Link } from 'react-router-dom';
 import { Hero } from '@/components/home/Hero';
 import { CategoryRow } from '@/components/home/CategoryRow';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { useProducts } from '@/features/products/hooks/useProducts';
+import { fetchFeaturedProducts } from '@/features/products/services/product.api';
 import { fetchBrands } from '@/features/products/services/taxonomies.api';
 import type { ProductListItem } from '@/types/product';
 import type { Brand } from '@/types/catalog';
 import { Spinner } from '@/components/ui/Spinner';
 
 export function Home() {
-  const { products, loading, error } = useProducts({});
   const [featuredProducts, setFeaturedProducts] = useState<ProductListItem[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  // Cargar marcas
+  // Cargar marcas y productos destacados
   useEffect(() => {
-    fetchBrands().then(setBrands).catch(err => console.error("Error loading brands", err));
+    fetchBrands()
+      .then(setBrands)
+      .catch(err => console.error("Error loading brands", err));
+
+    fetchFeaturedProducts()
+      .then(data => {
+        setFeaturedProducts(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error loading featured products", err);
+        setError(true);
+        setLoading(false);
+      });
   }, []);
-
-  // Seleccionar 3 productos aleatorios una vez que carguen los datos
-  useEffect(() => {
-    if (products.length > 0 && featuredProducts.length === 0) {
-      const shuffled = [...products].sort(() => 0.5 - Math.random());
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFeaturedProducts(shuffled.slice(0, 3));
-    }
-  }, [products, featuredProducts.length]);
 
   return (
     <main className="flex-1 bg-bg pb-8 max-w-7xl mx-auto w-full">

@@ -23,3 +23,8 @@ export async function fetchProduct(slug: string): Promise<ProductDetail> {
   const { data } = await api.get<{ data: ProductDetail }>(`/products/${slug}`);
   return data.data;
 }
+
+export async function fetchFeaturedProducts(): Promise<ProductListItem[]> {
+  const { data } = await api.get<{ data: ProductListItem[] }>('/products/featured');
+  return data.data;
+}
