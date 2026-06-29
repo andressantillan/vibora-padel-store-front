@@ -2,8 +2,8 @@
 
 @theme {
   /* ---- Brand ---- */
-  --color-teal: #0d8076;        /* primary / acción (optimizado para contraste a11y) */
-  --color-teal-dark: #0a635c;   /* hover/pressed */
+  --color-teal: #096a60;        /* primary / acción (WCAG AA pass 4.5:1) */
+  --color-teal-dark: #064e46;   /* hover/pressed */
   --color-teal-ink: #0c2e2c;    /* texto sobre lima, hero/drawer/footer bg */
   --color-teal-deep: #0a3a37;   /* parada del gradiente */
   --color-lime: #8ed44c;        /* acento */
