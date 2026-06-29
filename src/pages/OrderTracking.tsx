@@ -75,7 +75,9 @@ export function OrderTracking() {
         </header>
 
         <form onSubmit={onSubmit} className="mb-8 flex gap-2">
+          <label htmlFor="tracking-code" className="sr-only">Código de seguimiento</label>
           <input 
+            id="tracking-code"
             type="text" 
             value={inputCode}
             onChange={(e) => setInputCode(e.target.value)}
@@ -84,6 +86,7 @@ export function OrderTracking() {
           />
           <button 
             type="submit" 
+            aria-label="Buscar pedido"
             disabled={!inputCode.trim() || loading}
             className="bg-teal hover:bg-teal-dark text-white px-6 rounded-xl font-bold flex items-center justify-center transition-colors disabled:opacity-50"
           >

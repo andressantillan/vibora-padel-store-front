@@ -189,6 +189,7 @@ export function Checkout() {
                 {paymentMethods.map(method => (
                   <label 
                     key={method.id}
+                    htmlFor={`payment-method-${method.id}`}
                     className={`flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
                       selectedPaymentMethod === method.id 
                         ? 'border-teal bg-teal/5' 
@@ -197,6 +198,7 @@ export function Checkout() {
                   >
                     <div className="pt-1">
                       <input 
+                        id={`payment-method-${method.id}`}
                         type="radio" 
                         name="paymentMethod" 
                         value={method.id}

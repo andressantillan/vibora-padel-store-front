@@ -187,6 +187,7 @@ export function ProductDetail() {
                   <button 
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                     disabled={quantity <= 1}
+                    aria-label="Restar cantidad"
                     className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
                   >
                     <Minus size={20} />
@@ -195,6 +196,7 @@ export function ProductDetail() {
                   <button 
                     onClick={() => setQuantity(q => Math.min(selectedVariant.available, q + 1))}
                     disabled={quantity >= selectedVariant.available}
+                    aria-label="Sumar cantidad"
                     className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
                   >
                     <Plus size={20} />
