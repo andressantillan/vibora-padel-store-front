@@ -13,8 +13,8 @@
   --color-bg: #f5f7f3;          /* fondo de app */
   --color-card: #ffffff;        /* tarjetas, campos, app bar */
   --color-ink: #142220;         /* texto principal */
-  --color-muted: #69756f;       /* texto secundario */
-  --color-faint: #9aa49e;       /* terciario / placeholders / iconos off */
+  --color-muted: #5c6863;       /* texto secundario (WCAG AA pass) */
+  --color-faint: #8a968f;       /* terciario / placeholders / iconos off */
   --color-line: #e7ebe5;        /* bordes y divisores */
   --color-line-soft: #eef1ec;   /* divisor suave */
 

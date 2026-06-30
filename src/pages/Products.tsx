@@ -67,7 +67,7 @@ export function Products() {
 
       {/* Barra de Filtros (Categorías) */}
       <div className="mb-4">
-        <h3 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider">Categorías</h3>
+        <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider">Categorías</h2>
         <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
           <button
             onClick={() => setParam('category', '')}
@@ -97,7 +97,7 @@ export function Products() {
 
       {/* Barra de Filtros (Marcas) */}
       <div className="mb-8">
-        <h3 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider flex justify-between items-center pr-2">
+        <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider flex justify-between items-center pr-2">
           <span>Marcas</span>
           {(currentCategory || currentBrand) && (
             <button 
@@ -107,7 +107,7 @@ export function Products() {
               Limpiar filtros
             </button>
           )}
-        </h3>
+        </h2>
         <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
           <button
             onClick={() => setParam('brand', '')}
@@ -151,7 +151,7 @@ export function Products() {
           <div className="w-16 h-16 bg-line rounded-full flex items-center justify-center mx-auto mb-4">
             <Filter className="text-muted" size={24} />
           </div>
-          <h3 className="font-display font-bold text-xl text-ink mb-2">No se encontraron productos</h3>
+          <h2 className="font-display font-bold text-xl text-ink mb-2">No se encontraron productos</h2>
           <p className="text-muted">Intenta seleccionando otra combinación de filtros.</p>
           {(currentCategory || currentBrand) && (
             <button onClick={handleClearFilters} className="mt-6 text-teal font-bold hover:underline">
