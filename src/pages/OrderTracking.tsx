@@ -69,7 +69,7 @@ export function OrderTracking() {
     <main className="flex-1 bg-bg p-4 md:p-8 flex flex-col items-center min-h-[60vh]">
       <div className="max-w-2xl w-full">
         
-        <header className="mb-8 text-center">
+        <header className="mb-8 text-center min-h-[104px]">
           <h1 className="font-display font-black text-3xl md:text-4xl text-ink">Seguí tu pedido</h1>
           <p className="mt-2 text-muted text-lg">Ingresá el código de seguimiento que recibiste al comprar.</p>
         </header>
@@ -88,9 +88,9 @@ export function OrderTracking() {
             type="submit" 
             aria-label="Buscar pedido"
             disabled={!inputCode.trim() || loading}
-            className="bg-teal hover:bg-teal-dark text-white px-6 rounded-xl font-bold flex items-center justify-center transition-colors disabled:opacity-50"
+            className="bg-teal hover:bg-teal-dark text-white px-6 rounded-xl font-bold flex items-center justify-center transition-colors disabled:opacity-50 min-w-[68px]"
           >
-            {loading ? <Spinner /> : <Search size={20} />}
+            {loading ? <Spinner size={20} /> : <Search size={20} />}
           </button>
         </form>
 

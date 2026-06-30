@@ -131,7 +131,7 @@ export function ProductDetail() {
           {/* Selector de Variantes */}
           {product.variants && product.variants.length > 0 && (
             <div className="mb-8 space-y-4">
-              <h3 className="font-bold text-ink">Selecciona una opción:</h3>
+              <h2 className="font-bold text-ink">Selecciona una opción:</h2>
               <div className="flex flex-wrap gap-2">
                 {product.variants.map((variant) => {
                   const isSelected = selectedVariant?.id === variant.id;
@@ -169,7 +169,7 @@ export function ProductDetail() {
           {/* Descripción */}
           {product.description && (
             <div className="mb-8">
-              <h3 className="font-bold text-ink mb-2">Descripción</h3>
+              <h2 className="font-bold text-ink mb-2">Descripción</h2>
               <p className="text-muted leading-relaxed text-sm">
                 {product.description}
               </p>
