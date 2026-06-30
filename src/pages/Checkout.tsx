@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../features/cart/hooks/useCart';
 import { createOrder } from '../features/checkout/services/orders.api';
 import { getPaymentMethods } from '../features/checkout/services/paymentMethods.api';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 import type { OrderPayload } from '../types/order';
 import type { PaymentMethod } from '../types/paymentMethod';
 import { Spinner } from '../components/ui/Spinner';
@@ -231,8 +232,8 @@ export function Checkout() {
             <ul className="space-y-4 mb-6 max-h-[30vh] overflow-y-auto pr-2 hide-scrollbar">
               {items.map(item => (
                 <li key={item.variantId} className="flex gap-4 items-center">
-                  <div className="w-16 h-16 bg-line-soft rounded-lg p-1 shrink-0">
-                    <img src={item.imageUrl || '/placeholder.webp'} alt={item.productName} className="w-full h-full object-contain" />
+                  <div className="shrink-0 bg-line-soft rounded-xl p-2 w-16 h-16 relative border border-line">
+                    <img src={optimizeCloudinaryUrl(item.imageUrl || '', 150, 150, 'c_pad')} alt={item.productName} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-ink truncate text-sm">{item.productName}</p>

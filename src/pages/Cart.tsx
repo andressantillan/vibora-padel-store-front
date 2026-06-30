@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '@/features/cart/hooks/useCart';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export function Cart() {
   const { items, subtotal, removeItem, updateQuantity } = useCart();
@@ -42,7 +43,7 @@ export function Cart() {
             >
               <Link to={`/products/${item.productSlug}`} className="shrink-0 bg-line-soft rounded-xl p-2 w-24 h-24 flex items-center justify-center">
                 <img 
-                  src={item.imageUrl || '/placeholder.webp'} 
+                  src={optimizeCloudinaryUrl(item.imageUrl, 200, 200, 'c_pad')} 
                   alt={item.productName} 
                   className="w-full h-full object-contain"
                 />

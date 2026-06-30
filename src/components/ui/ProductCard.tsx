@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export interface ProductCardProps {
   id: string;
@@ -16,7 +17,7 @@ export function ProductCard({ id, name, price, imageUrl, category, brand, priori
       {/* Imagen del producto */}
       <Link to={`/products/${id}`} className="relative aspect-square bg-line-soft p-4 flex items-center justify-center overflow-hidden">
         <img 
-          src={imageUrl} 
+          src={optimizeCloudinaryUrl(imageUrl, 400, 400, 'c_pad')} 
           alt={name} 
           loading={priority ? "eager" : "lazy"}
           {...(priority ? { fetchPriority: "high" } : {})}

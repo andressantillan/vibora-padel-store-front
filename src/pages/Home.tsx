@@ -5,6 +5,7 @@ import { CategoryRow } from '@/components/home/CategoryRow';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { fetchFeaturedProducts } from '@/features/products/services/product.api';
 import { fetchBrands } from '@/features/products/services/taxonomies.api';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 import type { ProductListItem } from '@/types/product';
 import type { Brand } from '@/types/catalog';
 import { Spinner } from '@/components/ui/Spinner';
@@ -81,10 +82,10 @@ export function Home() {
               <Link 
                 key={brand.id} 
                 to={`/products?brand=${brand.slug}`}
-                className="flex-shrink-0 bg-card border border-line rounded-2xl w-32 h-32 md:w-40 md:h-40 flex items-center justify-center p-4 hover:border-teal hover:shadow-lg transition-all group"
+                className="flex-shrink-0 bg-card border border-line rounded-2xl w-32 h-32 md:w-40 md:h-40 flex items-center justify-center p-4 hover:border-teal hover:shadow-add transition-all group hover:-translate-y-1"
               >
                 {brand.logo_url ? (
-                  <img src={brand.logo_url} alt={brand.name} className="max-w-full max-h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" />
+                  <img src={optimizeCloudinaryUrl(brand.logo_url, 200, 100, 'c_fit')} alt={brand.name} className="max-w-full max-h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" />
                 ) : (
                   <span className="font-display font-bold text-ink text-center group-hover:text-teal">{brand.name}</span>
                 )}

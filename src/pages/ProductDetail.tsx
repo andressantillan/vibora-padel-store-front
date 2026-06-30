@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, ShoppingCart, Minus, Plus } from "lucide-react";
 import { fetchProduct } from '@/features/products/services/product.api';
 import { Spinner } from '@/components/ui/Spinner';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 import type { ProductDetail as ProductDetailType, ProductVariant } from '@/types/product';
 import { useCart } from '@/features/cart/hooks/useCart';
 
@@ -100,7 +101,7 @@ export function ProductDetail() {
         {/* Galería de Imágenes */}
         <section className="bg-line-soft aspect-square md:rounded-2xl flex items-center justify-center p-8 overflow-hidden relative">
           <img 
-            src={mainImage} 
+            src={optimizeCloudinaryUrl(mainImage, 800, 800, 'c_pad')} 
             alt={product.name} 
             className="w-full h-full object-contain drop-shadow-2xl"
           />
