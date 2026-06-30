@@ -132,7 +132,7 @@ export function ProductDetail() {
 
           {images.length > 1 && (
             <div 
-              className="flex gap-3 overflow-x-auto py-2 px-1 -mx-1 hide-scrollbar" 
+              className="flex gap-3 overflow-x-auto py-2 px-4 md:px-1 md:-mx-1 hide-scrollbar" 
               role="group" 
               aria-label="Miniaturas de imágenes del producto"
             >
