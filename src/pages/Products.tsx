@@ -58,7 +58,7 @@ export function Products() {
         {(currentCategory || currentBrand) && (
           <button 
             onClick={handleClearFilters} 
-            className="hidden md:block text-sm font-bold text-red-500 hover:underline mb-2"
+            className="hidden md:flex items-center gap-1 text-sm font-bold bg-card border border-line text-ink px-4 py-2 rounded-xl hover:border-red-500 hover:text-red-600 transition-colors shadow-sm mb-2 active:scale-95"
           >
             Limpiar filtros
           </button>
@@ -102,7 +102,7 @@ export function Products() {
           {(currentCategory || currentBrand) && (
             <button 
               onClick={handleClearFilters} 
-              className="md:hidden text-xs font-bold text-red-500 hover:underline"
+              className="md:hidden flex items-center gap-1 text-xs font-bold bg-card border border-line text-ink px-3 py-1.5 rounded-lg hover:border-red-500 hover:text-red-600 transition-colors active:scale-95"
             >
               Limpiar filtros
             </button>
@@ -154,7 +154,10 @@ export function Products() {
           <h2 className="font-display font-bold text-xl text-ink mb-2">No se encontraron productos</h2>
           <p className="text-muted">Intenta seleccionando otra combinación de filtros.</p>
           {(currentCategory || currentBrand) && (
-            <button onClick={handleClearFilters} className="mt-6 text-teal font-bold hover:underline">
+            <button 
+              onClick={handleClearFilters} 
+              className="mt-6 flex items-center gap-2 font-bold bg-card border border-line text-ink px-6 py-3 rounded-xl hover:border-red-500 hover:text-red-600 transition-colors shadow-sm mx-auto active:scale-95"
+            >
               Limpiar filtros
             </button>
           )}
