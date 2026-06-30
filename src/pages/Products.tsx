@@ -50,7 +50,7 @@ export function Products() {
 
   return (
     <main className="flex-1 p-4 md:p-8 bg-bg max-w-7xl mx-auto w-full">
-      <header className="mb-6 flex justify-between items-end">
+      <header className="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
         <div>
           <h1 className="font-display font-extrabold text-3xl text-ink">Catálogo</h1>
           <p className="mt-2 text-muted">Encuentra el equipamiento perfecto para elevar tu nivel.</p>
@@ -58,7 +58,7 @@ export function Products() {
         {(currentCategory || currentBrand) && (
           <button 
             onClick={handleClearFilters} 
-            className="hidden md:flex items-center gap-1 text-sm font-bold bg-card border border-line text-ink px-4 py-2 rounded-xl hover:border-red-500 hover:text-red-600 transition-colors shadow-sm mb-2 active:scale-95"
+            className="flex w-fit items-center gap-1 text-sm font-bold bg-card border border-line text-ink px-4 py-2 rounded-xl hover:border-red-500 hover:text-red-600 transition-colors shadow-sm active:scale-95"
           >
             Limpiar filtros
           </button>
@@ -97,16 +97,8 @@ export function Products() {
 
       {/* Barra de Filtros (Marcas) */}
       <div className="mb-8">
-        <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider flex justify-between items-center pr-2">
-          <span>Marcas</span>
-          {(currentCategory || currentBrand) && (
-            <button 
-              onClick={handleClearFilters} 
-              className="md:hidden flex items-center gap-1 text-xs font-bold bg-card border border-line text-ink px-3 py-1.5 rounded-lg hover:border-red-500 hover:text-red-600 transition-colors active:scale-95"
-            >
-              Limpiar filtros
-            </button>
-          )}
+        <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider pr-2">
+          Marcas
         </h2>
         <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
           <button
