@@ -21,6 +21,7 @@ export function ProductDetail() {
   
   // Estado para la cantidad a agregar
   const [quantity, setQuantity] = useState(1);
+  const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
   const { addItem } = useCart();
 
@@ -36,6 +37,16 @@ export function ProductDetail() {
         if (data.variants && data.variants.length > 0) {
           setSelectedVariant(data.variants[0]);
           setQuantity(1);
+        }
+        
+        // Si hay una imagen marcada como principal, la mostramos primero
+        if (data.images && data.images.length > 0) {
+          const mainIdx = data.images.findIndex(img => img.is_main);
+          if (mainIdx !== -1) {
+            setCurrentImageIdx(mainIdx);
+          } else {
+            setCurrentImageIdx(0);
+          }
         }
       })
       .catch(() => setError("No se pudo cargar la información del producto."))
@@ -59,7 +70,11 @@ export function ProductDetail() {
     );
   }
 
-  const mainImage = product.images.find(img => img.is_main)?.url || product.images[0]?.url || '/placeholder.webp';
+  const images = product.images && product.images.length > 0 
+    ? product.images 
+    : [{ url: '/placeholder.webp', is_main: true }];
+
+  const currentImage = images[currentImageIdx]?.url || '/placeholder.webp';
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
@@ -77,7 +92,7 @@ export function ProductDetail() {
       productSlug: product.slug,
       variantLabel,
       price: selectedVariant.price,
-      imageUrl: mainImage,
+      imageUrl: currentImage,
       quantity: quantity,
       available: selectedVariant.available
     });
@@ -99,16 +114,48 @@ export function ProductDetail() {
 
       <div className="max-w-5xl mx-auto md:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Galería de Imágenes */}
-        <section className="bg-line-soft aspect-square md:rounded-2xl flex items-center justify-center p-8 overflow-hidden relative">
-          <img 
-            src={optimizeCloudinaryUrl(mainImage, 800, 800, 'c_pad')} 
-            alt={product.name} 
-            className="w-full h-full object-contain drop-shadow-2xl"
-          />
-          <span className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm text-ink text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
-            {product.category}
-          </span>
-        </section>
+        <div className="flex flex-col gap-4">
+          <section 
+            className="bg-line-soft aspect-square md:rounded-2xl flex items-center justify-center p-8 overflow-hidden relative"
+            role="region"
+            aria-label="Imagen principal del producto"
+          >
+            <img 
+              src={optimizeCloudinaryUrl(currentImage, 800, 800, 'c_pad')} 
+              alt={`${product.name} - Vista ${currentImageIdx + 1}`} 
+              className="w-full h-full object-contain drop-shadow-2xl"
+            />
+            <span className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm text-ink text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
+              {product.category}
+            </span>
+          </section>
+
+          {images.length > 1 && (
+            <div 
+              className="flex gap-3 overflow-x-auto py-2 px-1 -mx-1 hide-scrollbar" 
+              role="group" 
+              aria-label="Miniaturas de imágenes del producto"
+            >
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImageIdx(idx)}
+                  aria-label={`Ver imagen ${idx + 1}`}
+                  aria-current={currentImageIdx === idx ? 'true' : 'false'}
+                  className={`flex-shrink-0 w-20 h-20 bg-line-soft rounded-xl overflow-hidden border-2 transition-all focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 ${
+                    currentImageIdx === idx ? 'border-teal' : 'border-transparent hover:border-line'
+                  }`}
+                >
+                  <img 
+                    src={optimizeCloudinaryUrl(img.url, 150, 150, 'c_pad')} 
+                    alt="" 
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Info del Producto */}
         <section className="px-4 md:px-0 flex flex-col">
