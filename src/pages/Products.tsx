@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import { ProductCard } from '@/components/ui/ProductCard';
-import { Spinner } from '@/components/ui/Spinner';
+import { ProductSkeleton } from '@/components/ui/ProductSkeleton';
 import { useProducts } from '@/features/products/hooks/useProducts';
 import { fetchCategories, fetchBrands } from '@/features/products/services/taxonomies.api';
 import type { Category, Brand } from '@/types/catalog';
@@ -137,8 +137,10 @@ export function Products() {
 
       {/* Contenido Principal */}
       {loading ? (
-        <div className="flex justify-center items-center py-32">
-          <Spinner />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <ProductSkeleton key={i} />
+          ))}
         </div>
       ) : error ? (
         <div className="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-200 font-bold text-center">
