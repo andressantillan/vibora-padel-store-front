@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import { ProductCard } from '@/components/ui/ProductCard';
 import { ProductSkeleton } from '@/components/ui/ProductSkeleton';
+import { Pagination } from '@/components/ui/Pagination';
 import { useProducts } from '@/features/products/hooks/useProducts';
 import { fetchCategories, fetchBrands } from '@/features/products/services/taxonomies.api';
 import type { Category, Brand } from '@/types/catalog';
@@ -12,6 +13,7 @@ export function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentCategory = searchParams.get('category') || '';
   const currentBrand = searchParams.get('brand') || '';
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -26,13 +28,13 @@ export function Products() {
   }, []);
 
   const filters = useMemo(() => {
-    const f: any = {};
+    const f: any = { per_page: 8, page: currentPage };
     if (currentCategory) f.category = currentCategory;
     if (currentBrand) f.brand = currentBrand;
     return f;
-  }, [currentCategory, currentBrand]);
+  }, [currentCategory, currentBrand, currentPage]);
   
-  const { products, loading, error } = useProducts(filters);
+  const { products, meta, loading, error } = useProducts(filters);
 
   const setParam = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -41,7 +43,15 @@ export function Products() {
     } else {
       newParams.delete(key);
     }
+    if (key !== 'page') {
+      newParams.delete('page');
+    }
     setSearchParams(newParams);
+  };
+
+  const handlePageChange = (page: number) => {
+    setParam('page', page.toString());
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleClearFilters = () => {
@@ -155,19 +165,28 @@ export function Products() {
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product, index) => {
-            const cardProps: ProductCardProps = {
-              id: product.slug, // Usamos slug para la URL
-              name: product.name,
-              price: product.price_from,
-              imageUrl: product.image || '/placeholder.webp',
-              category: product.category,
-              brand: product.brand,
-              priority: index < 4,
-            };
-            return <ProductCard key={product.id} {...cardProps} />;
-          })}
+        <div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {products.map((product, index) => {
+              const cardProps: ProductCardProps = {
+                id: product.slug, // Usamos slug para la URL
+                name: product.name,
+                price: product.price_from,
+                imageUrl: product.image || '/placeholder.webp',
+                category: product.category,
+                brand: product.brand,
+                priority: index < 4,
+              };
+              return <ProductCard key={product.id} {...cardProps} />;
+            })}
+          </div>
+          {meta && meta.last_page > 1 && (
+            <Pagination 
+              currentPage={meta.current_page} 
+              lastPage={meta.last_page} 
+              onPageChange={handlePageChange} 
+            />
+          )}
         </div>  
       )}
     </main>

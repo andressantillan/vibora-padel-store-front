@@ -7,6 +7,7 @@ export interface ProductFilters {
   brand?: string;    // slug
   search?: string;
   page?: number;
+  per_page?: number;
 }
 
 export async function fetchProducts(

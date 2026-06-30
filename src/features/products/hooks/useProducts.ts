@@ -1,11 +1,12 @@
 import { fetchProducts, type ProductFilters } from '@/features/products/services/product.api.ts';
 import type { ProductListItem } from '@/types/product';
-import type { Paginated } from '@/types/pagination';
+import type { Paginated, PaginationMeta } from '@/types/pagination';
 import { useEffect, useState } from "react";
 
 export function useProducts(filters: ProductFilters = {}) {
 
     const [products, setProducts] = useState<ProductListItem[]>([]);
+    const [meta, setMeta] = useState<PaginationMeta | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +16,8 @@ export function useProducts(filters: ProductFilters = {}) {
         setError(null);
         fetchProducts(filters)
             .then((data: Paginated<ProductListItem>) => {
-                setProducts(data.data); // Solo nos interesa el array de productos
+                setProducts(data.data);
+                setMeta(data.meta);
             })
             .catch((err) => {
                 console.error("Error fetching products:", err);
@@ -24,7 +26,7 @@ export function useProducts(filters: ProductFilters = {}) {
             .finally(() => {
                 setLoading(false);
             });
-    }, [filters]); // Re-fetch si los filtros cambian
+    }, [filters.category, filters.brand, filters.search, filters.page, filters.per_page]); // Dependencias explícitas
 
-    return { products, loading, error };
+    return { products, meta, loading, error };
 }
