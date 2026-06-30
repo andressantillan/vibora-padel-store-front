@@ -7,7 +7,7 @@ import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 import type { OrderPayload } from '../types/order';
 import type { PaymentMethod } from '../types/paymentMethod';
 import { Spinner } from '../components/ui/Spinner';
-import { ChevronLeft, CreditCard } from 'lucide-react';
+import { ChevronLeft, CreditCard, Info } from 'lucide-react';
 
 export function Checkout() {
   const navigate = useNavigate();
@@ -271,6 +271,13 @@ export function Checkout() {
                 {apiError}
               </div>
             )}
+
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-xl flex items-start gap-3 shadow-sm">
+              <Info className="text-orange-600 shrink-0 mt-0.5" size={20} />
+              <p className="text-orange-900 text-sm leading-relaxed">
+                <strong className="font-bold">Aviso importante:</strong> La reserva de los productos (stock) se realiza únicamente una vez que el pago se encuentre acreditado.
+              </p>
+            </div>
 
             <button
               type="submit"

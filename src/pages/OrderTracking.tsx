@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getOrder } from '../features/checkout/services/orders.api';
 import type { OrderResponse } from '../types/order';
 import { Spinner } from '../components/ui/Spinner';
-import { Package, Search, CreditCard, Truck } from 'lucide-react';
+import { Package, Search, CreditCard, Truck, Info } from 'lucide-react';
 
 function renderInfoBox(title: string, icon: React.ReactNode, data?: Record<string, any>) {
   if (!data || Object.keys(data).length === 0) return null;
@@ -113,6 +113,13 @@ export function OrderTracking() {
                   {order.status}
                 </div>
               </div>
+            </div>
+
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-xl flex items-start gap-3 shadow-sm">
+              <Info className="text-orange-600 shrink-0 mt-0.5" size={20} />
+              <p className="text-orange-900 text-sm leading-relaxed">
+                <strong className="font-bold">Aviso importante:</strong> La reserva de los productos (stock) se realiza únicamente una vez que el pago se encuentre acreditado.
+              </p>
             </div>
 
             {renderInfoBox("Información de Pago", <CreditCard size={20} className="text-teal" />, 

@@ -16,8 +16,29 @@ export function useProducts(filters: ProductFilters = {}) {
         setError(null);
         fetchProducts(filters)
             .then((data: Paginated<ProductListItem>) => {
-                setProducts(data.data);
-                setMeta(data.meta);
+                // Workaround: El backend en Vercel está hardcodeado a 12 items por página.
+                // Como pidieron 8, recalculamos en el frontend (solo funciona bien si hay <= 12 items totales).
+                const itemsPerPage = filters.per_page || 8;
+                const currentPage = filters.page || 1;
+                const total = data.meta.total;
+                const lastPage = Math.ceil(total / itemsPerPage);
+                
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                
+                // Si la data viene toda en la pagina 1 (total <= 12), paginamos localmente
+                if (data.meta.current_page === 1 && total <= 12) {
+                    setProducts(data.data.slice(start, end));
+                } else {
+                    setProducts(data.data);
+                }
+
+                setMeta({
+                    ...data.meta,
+                    current_page: currentPage,
+                    last_page: lastPage,
+                    per_page: itemsPerPage,
+                });
             })
             .catch((err) => {
                 console.error("Error fetching products:", err);

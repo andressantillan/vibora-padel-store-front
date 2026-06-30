@@ -77,7 +77,7 @@ export function Home() {
       {brands.length > 0 && (
         <section className="px-4 md:px-8 mt-12 mb-16">
           <h2 className="font-display font-extrabold text-2xl text-ink mb-6 text-center md:text-left">Comprá por Marca</h2>
-          <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar">
+          <div className="flex overflow-x-auto gap-4 pt-2 pb-4 px-2 -mx-2 hide-scrollbar">
             {brands.map(brand => (
               <Link 
                 key={brand.id} 

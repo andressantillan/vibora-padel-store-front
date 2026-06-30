@@ -78,7 +78,7 @@ export function Products() {
       {/* Barra de Filtros (Categorías) */}
       <div className="mb-4">
         <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider">Categorías</h2>
-        <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
+        <div className="flex overflow-x-auto gap-2 pt-1 pb-3 px-1 -mx-1 hide-scrollbar">
           <button
             onClick={() => setParam('category', '')}
             className={`whitespace-nowrap px-4 py-2 rounded-full font-bold text-sm transition-all active:scale-95 border ${
@@ -110,7 +110,7 @@ export function Products() {
         <h2 className="text-xs font-bold text-muted mb-3 uppercase tracking-wider pr-2">
           Marcas
         </h2>
-        <div className="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
+        <div className="flex overflow-x-auto gap-2 pt-1 pb-3 px-1 -mx-1 hide-scrollbar">
           <button
             onClick={() => setParam('brand', '')}
             className={`whitespace-nowrap px-4 py-2 rounded-full font-bold text-sm transition-all active:scale-95 border ${
