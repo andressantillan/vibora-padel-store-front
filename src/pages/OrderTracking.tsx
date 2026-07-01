@@ -223,7 +223,7 @@ export function OrderTracking() {
 
             <div className="space-y-2 text-sm text-muted border-t border-line pt-4">
               <div className="flex justify-between items-center font-bold text-ink text-base">
-                <span>Total pagado:</span>
+                <span>Total:</span>
                 <span className="text-teal-ink text-xl">${Number(order.total).toLocaleString('es-AR')}</span>
               </div>
             </div>
