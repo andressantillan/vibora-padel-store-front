@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useCart } from '../features/cart/hooks/useCart';
+import { useCart } from '@/features/cart/hooks/useCart';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export function Cart() {
   const { items, subtotal, removeItem, updateQuantity } = useCart();
@@ -42,7 +43,7 @@ export function Cart() {
             >
               <Link to={`/products/${item.productSlug}`} className="shrink-0 bg-line-soft rounded-xl p-2 w-24 h-24 flex items-center justify-center">
                 <img 
-                  src={item.imageUrl || '/placeholder.png'} 
+                  src={optimizeCloudinaryUrl(item.imageUrl, 200, 200, 'c_pad')} 
                   alt={item.productName} 
                   className="w-full h-full object-contain"
                 />
@@ -50,11 +51,11 @@ export function Cart() {
 
               <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex-1">
-                  <h3 className="font-display font-bold text-ink truncate">
+                  <h2 className="font-display font-bold text-ink text-lg truncate">
                     <Link to={`/products/${item.productSlug}`} className="hover:text-teal transition-colors">
                       {item.productName}
                     </Link>
-                  </h3>
+                  </h2>
                   <p className="text-sm font-bold text-muted mt-1 uppercase tracking-wider">{item.variantLabel}</p>
                   <p className="font-extrabold text-teal-ink mt-2">
                     ${item.price.toLocaleString('es-AR')}

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ChevronLeft, ShoppingCart } from "lucide-react";
-import { fetchProduct } from "../features/products/services/product.api";
-import { Spinner } from "../components/ui/Spinner";
-import type { ProductDetail as ProductDetailType, ProductVariant } from "../types/product";
-import { useCart } from "../features/cart/hooks/useCart";
+import { ChevronLeft, ShoppingCart, Minus, Plus } from "lucide-react";
+import { fetchProduct } from '@/features/products/services/product.api';
+import { Spinner } from '@/components/ui/Spinner';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
+import type { ProductDetail as ProductDetailType, ProductVariant } from '@/types/product';
+import { useCart } from '@/features/cart/hooks/useCart';
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -17,6 +18,10 @@ export function ProductDetail() {
 
   // Estado para la variante seleccionada
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  
+  // Estado para la cantidad a agregar
+  const [quantity, setQuantity] = useState(1);
+  const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
   const { addItem } = useCart();
 
@@ -31,6 +36,17 @@ export function ProductDetail() {
         // Seleccionar la primera variante por defecto si existe
         if (data.variants && data.variants.length > 0) {
           setSelectedVariant(data.variants[0]);
+          setQuantity(1);
+        }
+        
+        // Si hay una imagen marcada como principal, la mostramos primero
+        if (data.images && data.images.length > 0) {
+          const mainIdx = data.images.findIndex(img => img.is_main);
+          if (mainIdx !== -1) {
+            setCurrentImageIdx(mainIdx);
+          } else {
+            setCurrentImageIdx(0);
+          }
         }
       })
       .catch(() => setError("No se pudo cargar la información del producto."))
@@ -54,7 +70,11 @@ export function ProductDetail() {
     );
   }
 
-  const mainImage = product.images.find(img => img.is_main)?.url || product.images[0]?.url || '/placeholder.png';
+  const images = product.images && product.images.length > 0 
+    ? product.images 
+    : [{ url: '/placeholder.webp', is_main: true }];
+
+  const currentImage = images[currentImageIdx]?.url || '/placeholder.webp';
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
@@ -72,8 +92,8 @@ export function ProductDetail() {
       productSlug: product.slug,
       variantLabel,
       price: selectedVariant.price,
-      imageUrl: mainImage,
-      quantity: 1,
+      imageUrl: currentImage,
+      quantity: quantity,
       available: selectedVariant.available
     });
     
@@ -83,7 +103,7 @@ export function ProductDetail() {
   };
 
   return (
-    <main className="flex-1 bg-bg pb-24 md:pb-8">
+    <main className="flex-1 bg-bg pb-52 md:pb-8">
       {/* Botón Volver */}
       <div className="px-4 py-4 md:px-8 max-w-5xl mx-auto">
         <Link to="/products" className="inline-flex items-center text-ink hover:text-teal transition-colors font-bold text-sm">
@@ -94,16 +114,48 @@ export function ProductDetail() {
 
       <div className="max-w-5xl mx-auto md:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Galería de Imágenes */}
-        <section className="bg-line-soft aspect-square md:rounded-2xl flex items-center justify-center p-8 overflow-hidden relative">
-          <img 
-            src={mainImage} 
-            alt={product.name} 
-            className="w-full h-full object-contain drop-shadow-2xl"
-          />
-          <span className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm text-ink text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
-            {product.category}
-          </span>
-        </section>
+        <div className="flex flex-col gap-4">
+          <section 
+            className="bg-line-soft aspect-square md:rounded-2xl flex items-center justify-center p-8 overflow-hidden relative"
+            role="region"
+            aria-label="Imagen principal del producto"
+          >
+            <img 
+              src={optimizeCloudinaryUrl(currentImage, 800, 800, 'c_pad')} 
+              alt={`${product.name} - Vista ${currentImageIdx + 1}`} 
+              className="w-full h-full object-contain drop-shadow-2xl"
+            />
+            <span className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm text-ink text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
+              {product.category}
+            </span>
+          </section>
+
+          {images.length > 1 && (
+            <div 
+              className="flex gap-3 overflow-x-auto py-2 px-4 md:px-1 md:-mx-1 hide-scrollbar" 
+              role="group" 
+              aria-label="Miniaturas de imágenes del producto"
+            >
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImageIdx(idx)}
+                  aria-label={`Ver imagen ${idx + 1}`}
+                  aria-current={currentImageIdx === idx ? 'true' : 'false'}
+                  className={`flex-shrink-0 w-20 h-20 bg-line-soft rounded-xl overflow-hidden border-2 transition-all focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 ${
+                    currentImageIdx === idx ? 'border-teal' : 'border-transparent hover:border-line'
+                  }`}
+                >
+                  <img 
+                    src={optimizeCloudinaryUrl(img.url, 150, 150, 'c_pad')} 
+                    alt="" 
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Info del Producto */}
         <section className="px-4 md:px-0 flex flex-col">
@@ -127,7 +179,7 @@ export function ProductDetail() {
           {/* Selector de Variantes */}
           {product.variants && product.variants.length > 0 && (
             <div className="mb-8 space-y-4">
-              <h3 className="font-bold text-ink">Selecciona una opción:</h3>
+              <h2 className="font-bold text-ink">Selecciona una opción:</h2>
               <div className="flex flex-wrap gap-2">
                 {product.variants.map((variant) => {
                   const isSelected = selectedVariant?.id === variant.id;
@@ -141,7 +193,10 @@ export function ProductDetail() {
                   return (
                     <button
                       key={variant.id}
-                      onClick={() => setSelectedVariant(variant)}
+                      onClick={() => {
+                        setSelectedVariant(variant);
+                        setQuantity(1);
+                      }}
                       disabled={variant.available === 0}
                       className={`px-4 py-2 rounded-xl border text-sm font-bold transition-all ${
                         isSelected 
@@ -162,7 +217,7 @@ export function ProductDetail() {
           {/* Descripción */}
           {product.description && (
             <div className="mb-8">
-              <h3 className="font-bold text-ink mb-2">Descripción</h3>
+              <h2 className="font-bold text-ink mb-2">Descripción</h2>
               <p className="text-muted leading-relaxed text-sm">
                 {product.description}
               </p>
@@ -171,6 +226,36 @@ export function ProductDetail() {
 
           {/* CTA Fixed en Mobile, Normal en Desktop */}
           <div className="fixed bottom-16 left-0 right-0 p-4 bg-card border-t border-line md:relative md:p-0 md:bg-transparent md:border-t-0 md:bottom-auto z-30">
+            
+            {/* Controles de Cantidad */}
+            {selectedVariant && selectedVariant.available > 0 && (
+              <div className="flex items-center gap-4 mb-4 md:mb-6">
+                <span className="font-bold text-ink">Cantidad:</span>
+                <div className="flex items-center gap-3 bg-bg border border-line rounded-xl px-2 py-1">
+                  <button 
+                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                    aria-label="Restar cantidad"
+                    className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
+                  >
+                    <Minus size={20} />
+                  </button>
+                  <span className="font-bold text-ink w-6 text-center">{quantity}</span>
+                  <button 
+                    onClick={() => setQuantity(q => Math.min(selectedVariant.available, q + 1))}
+                    disabled={quantity >= selectedVariant.available}
+                    aria-label="Sumar cantidad"
+                    className="p-1 text-muted hover:text-ink disabled:opacity-30 transition-colors"
+                  >
+                    <Plus size={20} />
+                  </button>
+                </div>
+                <span className="text-xs text-muted">
+                  ({selectedVariant.available} disponibles)
+                </span>
+              </div>
+            )}
+
             <button
               onClick={handleAddToCart}
               disabled={!selectedVariant || selectedVariant.available === 0 || added}

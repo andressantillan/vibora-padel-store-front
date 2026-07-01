@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect, useMemo, type ReactNode } from 'react';
-import { cartReducer } from './cartReducer';
-import type { CartItem, CartState } from '../../../types/cart';
+import { cartReducer } from '@/features/cart/context/cartReducer';
+import type { CartItem, CartState } from '@/types/cart';
 
 const STORAGE_KEY = 'vibora_cart';
 

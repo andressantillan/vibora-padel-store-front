@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, ShoppingCart } from 'lucide-react';
-import { MobileMenu } from './MobileMenu';
+import { Menu, ShoppingCart, ChevronDown } from 'lucide-react';
+import { MobileMenu } from '@/components/layout/MobileMenu';
+import { fetchCategories } from '@/features/products/services/taxonomies.api';
+import type { Category } from '@/types/catalog';
 
-import { useCart } from '../../features/cart/hooks/useCart';
+import { useCart } from '@/features/cart/hooks/useCart';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const { itemCount } = useCart();
+
+  useEffect(() => {
+    fetchCategories().then(setCategories).catch(err => console.error("Error loading categories", err));
+  }, []);
 
   return (
     <>
@@ -31,11 +38,35 @@ export function Header() {
 
           {/* Navegación de Escritorio - Izquierda */}
           <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal de escritorio">
+            <div className="relative group cursor-pointer">
+              <button 
+                className="flex items-center gap-2 bg-teal hover:bg-teal-dark text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-md shadow-teal/20"
+              >
+                <span>Catálogo</span>
+                <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
+              </button>
+              
+              {/* Dropdown flotante */}
+              <div className="absolute top-full left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="bg-card border border-line rounded-xl shadow-lg overflow-hidden flex flex-col py-2">
+                  <Link to="/products" className="px-4 py-2.5 hover:bg-line-soft text-ink font-bold text-sm transition-colors">
+                    Todos los productos
+                  </Link>
+                  <div className="h-px bg-line mx-4 my-1"></div>
+                  {categories.map(cat => (
+                    <Link key={cat.id} to={`/products?category=${cat.slug}`} className="px-4 py-2 hover:bg-line-soft text-muted hover:text-teal font-medium text-sm transition-colors">
+                      {cat.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
             <NavLink 
-              to="/products" 
+              to="/tracking" 
               className={({ isActive }) => `font-bold text-sm transition-colors ${isActive ? 'text-teal' : 'text-ink hover:text-teal'}`}
             >
-              Catálogo
+              Seguimiento
             </NavLink>
           </nav>
         </div>

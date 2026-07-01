@@ -1,12 +1,15 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { RootLayout } from './components/layout/RootLayout';
-import { Home } from './pages/Home';
-import { Products } from './pages/Products';
-import { ProductDetail } from './pages/ProductDetail';
-import { Cart } from './pages/Cart';
-import { Checkout } from './pages/Checkout';
-import { About } from './pages/About'; 
-import { Contact } from './pages/Contact';
+import { RootLayout } from '@/components/layout/RootLayout';
+import { Home } from '@/pages/Home';
+import { Products } from '@/pages/Products';
+import { ProductDetail } from '@/pages/ProductDetail';
+import { Cart } from '@/pages/Cart';
+import { Checkout } from '@/pages/Checkout';
+import { Success } from '@/pages/Success';
+import { PaymentStatus } from '@/pages/PaymentStatus';
+import { About } from '@/pages/About'; 
+import { Contact } from '@/pages/Contact';
+import { OrderTracking } from '@/pages/OrderTracking';
 
 const router = createBrowserRouter([
   {
@@ -34,12 +37,28 @@ const router = createBrowserRouter([
         element: <Checkout />,
       },
       {
+        path: 'success',
+        element: <Success />,
+      },
+      {
+        path: 'payment-status',
+        element: <PaymentStatus />,
+      },
+      {
         path: 'about',
         element: <About />,
       },
       {
         path: 'contact',
         element: <Contact />,
+      },
+      {
+        path: 'tracking',
+        element: <OrderTracking />,
+      },
+      {
+        path: 'tracking/:code',
+        element: <OrderTracking />,
       },
       {
         path: '*',

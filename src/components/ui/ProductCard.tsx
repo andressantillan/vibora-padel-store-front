@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export interface ProductCardProps {
   id: string;
@@ -6,17 +7,20 @@ export interface ProductCardProps {
   price: number;
   imageUrl: string;
   category?: string;
+  brand?: string;
+  priority?: boolean;
 }
 
-export function ProductCard({ id, name, price, imageUrl, category }: ProductCardProps) {
+export function ProductCard({ id, name, price, imageUrl, category, brand, priority = false }: ProductCardProps) {
   return (
     <article className="group flex flex-col bg-card rounded-brand-sm shadow-add overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-sticky">
       {/* Imagen del producto */}
       <Link to={`/products/${id}`} className="relative aspect-square bg-line-soft p-4 flex items-center justify-center overflow-hidden">
         <img 
-          src={imageUrl} 
+          src={optimizeCloudinaryUrl(imageUrl, 400, 400, 'c_pad')} 
           alt={name} 
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          {...(priority ? { fetchPriority: "high" } : {})}
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
         />
         {category && (
@@ -30,6 +34,7 @@ export function ProductCard({ id, name, price, imageUrl, category }: ProductCard
       <div className="p-3 flex flex-col flex-1 justify-between gap-2">
         <div>
           <Link to={`/products/${id}`}>
+            {brand && <span className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1 block">{brand}</span>}
             <h3 className="font-sans font-bold text-sm text-ink leading-tight line-clamp-2 mb-1 group-hover:text-teal transition-colors">
               {name}
             </h3>

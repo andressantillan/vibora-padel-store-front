@@ -2,8 +2,8 @@
 
 @theme {
   /* ---- Brand ---- */
-  --color-teal: #12a99b;        /* primary / acción */
-  --color-teal-dark: #0e8b80;   /* hover/pressed */
+  --color-teal: #096a60;        /* primary / acción (WCAG AA pass 4.5:1) */
+  --color-teal-dark: #064e46;   /* hover/pressed */
   --color-teal-ink: #0c2e2c;    /* texto sobre lima, hero/drawer/footer bg */
   --color-teal-deep: #0a3a37;   /* parada del gradiente */
   --color-lime: #8ed44c;        /* acento */
@@ -13,8 +13,8 @@
   --color-bg: #f5f7f3;          /* fondo de app */
   --color-card: #ffffff;        /* tarjetas, campos, app bar */
   --color-ink: #142220;         /* texto principal */
-  --color-muted: #69756f;       /* texto secundario */
-  --color-faint: #9aa49e;       /* terciario / placeholders / iconos off */
+  --color-muted: #5c6863;       /* texto secundario (WCAG AA pass) */
+  --color-faint: #8a968f;       /* terciario / placeholders / iconos off */
   --color-line: #e7ebe5;        /* bordes y divisores */
   --color-line-soft: #eef1ec;   /* divisor suave */
 

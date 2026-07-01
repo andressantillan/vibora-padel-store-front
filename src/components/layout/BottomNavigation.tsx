@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Search, ShoppingCart } from 'lucide-react';
 
-import { useCart } from '../../features/cart/hooks/useCart';
+import { useCart } from '@/features/cart/hooks/useCart';
 
 export function BottomNavigation() {
   const { itemCount } = useCart();
