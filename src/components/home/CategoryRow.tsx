@@ -15,7 +15,7 @@ export function CategoryRow() {
       </div>
       
       {/* Scroll horizontal container */}
-      <div className="flex overflow-x-auto gap-3 px-4 pb-4 -mx-4 hide-scrollbar snap-x">
+      <div className="flex overflow-x-auto gap-3 px-4 pt-2 pb-4 hide-scrollbar snap-x">
         {categories.map((category) => {
           const Icon = category.icon;
           return (
