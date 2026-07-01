@@ -4,6 +4,7 @@ import { getOrder } from '../features/checkout/services/orders.api';
 import type { OrderResponse } from '../types/order';
 import { Spinner } from '../components/ui/Spinner';
 import { Package, Search, CreditCard, Truck, Info } from 'lucide-react';
+import { MercadoPagoButton } from '../components/ui/MercadoPagoButton';
 
 const keyTranslations: Record<string, string> = {
   payment_method_id: 'ID Método',
@@ -192,6 +193,30 @@ export function OrderTracking() {
 
             {renderInfoBox("Información de Pago", <CreditCard size={20} className="text-teal" />, 
               order.payments && order.payments.length > 0 ? order.payments[0] : { estado: 'Pendiente de pago' }
+            )}
+
+            {order.status.toLowerCase() === 'pending' && 
+             order.payments && order.payments.length > 0 && 
+             (order.payments[0].method?.toLowerCase().includes('mercado') || order.payments[0].method?.toLowerCase().includes('mp')) && (
+               <div className="mb-6 p-6 bg-card border border-teal-ink/20 rounded-2xl shadow-sm">
+                 <div className="text-center mb-4">
+                   <p className="font-bold text-ink">Este pedido aún no está pagado.</p>
+                   <p className="text-sm text-muted">Podés completar el pago a continuación para que podamos preparar tu pedido.</p>
+                 </div>
+                 <MercadoPagoButton 
+                   items={order.items?.map(i => ({ 
+                     variantId: 0, 
+                     productName: i.product || `SKU: ${i.sku}`, 
+                     productSlug: '', 
+                     variantLabel: '', 
+                     price: i.unit_price, 
+                     imageUrl: null, 
+                     quantity: i.quantity, 
+                     available: 0 
+                   })) as any} 
+                   orderId={order.id} 
+                 />
+               </div>
             )}
             
             {renderInfoBox("Información de Envío", <Truck size={20} className="text-teal" />, 
