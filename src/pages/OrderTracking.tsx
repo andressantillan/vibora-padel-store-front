@@ -5,8 +5,48 @@ import type { OrderResponse } from '../types/order';
 import { Spinner } from '../components/ui/Spinner';
 import { Package, Search, CreditCard, Truck, Info } from 'lucide-react';
 
+const keyTranslations: Record<string, string> = {
+  payment_method_id: 'ID Método',
+  payment_method: 'Método de pago',
+  method: 'Método',
+  status: 'Estado',
+  transaction_id: 'Nro. Transacción',
+  amount: 'Monto',
+  carrier: 'Logística',
+  tracking_number: 'Nro. Seguimiento',
+  shipping_cost: 'Costo de envío',
+  address: 'Dirección',
+  city: 'Ciudad',
+  province: 'Provincia',
+  postal_code: 'Código Postal',
+  street: 'Calle',
+  created_at: 'Fecha',
+  updated_at: 'Actualizado',
+  shipped_at: 'Fecha de envío',
+  paid_at: 'Fecha de pago'
+};
+
+const valueTranslations: Record<string, string> = {
+  pending: 'Pendiente',
+  approved: 'Aprobado',
+  rejected: 'Rechazado',
+  shipped: 'En camino',
+  delivered: 'Entregado',
+  cancelled: 'Cancelado',
+  processing: 'En preparación',
+  completed: 'Completado',
+  correo_argentino: 'Correo Argentino',
+  andreani: 'Andreani',
+  oca: 'OCA',
+  pickup: 'Retiro en tienda',
+  mercadopago: 'Mercado Pago'
+};
+
 function renderInfoBox(title: string, icon: React.ReactNode, data?: Record<string, any>) {
   if (!data || Object.keys(data).length === 0) return null;
+  
+  const excludeKeys = ['id', 'order_id'];
+
   return (
     <div className="bg-line-soft rounded-2xl p-6 mb-6">
       <h3 className="font-bold text-ink flex items-center gap-2 mb-4 border-b border-line pb-2">
@@ -14,12 +54,32 @@ function renderInfoBox(title: string, icon: React.ReactNode, data?: Record<strin
         {title}
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {Object.entries(data).map(([key, value]) => (
-           <div key={key}>
-             <p className="text-xs font-bold text-muted uppercase tracking-wider mb-1">{key.replace(/_/g, ' ')}</p>
-             <p className="text-sm font-medium text-ink capitalize">{String(value)}</p>
-           </div>
-        ))}
+        {Object.entries(data)
+          .filter(([key, value]) => !excludeKeys.includes(key) && value !== null && value !== undefined && value !== '')
+          .map(([key, value]) => {
+            const displayKey = keyTranslations[key] || key.replace(/_/g, ' ');
+            
+            let displayValue = String(value);
+            if (['created_at', 'updated_at', 'shipped_at', 'paid_at'].includes(key)) {
+              const date = new Date(value);
+              if (!isNaN(date.getTime())) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                displayValue = `${day}/${month}/${year}`;
+              }
+            } else {
+              const strValue = String(value).toLowerCase();
+              displayValue = valueTranslations[strValue] || String(value);
+            }
+
+            return (
+              <div key={key}>
+                <p className="text-xs font-bold text-muted uppercase tracking-wider mb-1">{displayKey}</p>
+                <p className="text-sm font-medium text-ink capitalize">{displayValue}</p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
@@ -109,8 +169,16 @@ export function OrderTracking() {
               </div>
               <div className="text-right">
                 <p className="text-sm font-bold text-muted uppercase tracking-wider mb-1">Estado General</p>
-                <div className="inline-block bg-teal/10 text-teal-ink px-3 py-1 rounded-full font-bold text-sm">
-                  {order.status}
+                <div className={`inline-block px-3 py-1 rounded-full font-bold text-sm capitalize ${
+                  order.status.toLowerCase() === 'cancelled' || order.status.toLowerCase() === 'rejected' 
+                    ? 'bg-red-100 text-red-700' 
+                  : order.status.toLowerCase() === 'completed' || order.status.toLowerCase() === 'delivered' || order.status.toLowerCase() === 'approved'
+                    ? 'bg-green-100 text-green-700'
+                  : order.status.toLowerCase() === 'shipped' || order.status.toLowerCase() === 'processing'
+                    ? 'bg-blue-100 text-blue-700'
+                  : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {valueTranslations[order.status.toLowerCase()] || order.status}
                 </div>
               </div>
             </div>

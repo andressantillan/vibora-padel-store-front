@@ -25,6 +25,16 @@ Tienda online especializada en artículos de pádel: paletas, overgrips y protec
 - **Overgrips**
 - **Protectores**
 
+## Flujo del Sitio (User Flow)
+
+El sitio cuenta con un flujo de compra sencillo y directo, diseñado para minimizar la fricción (guest checkout):
+
+1. **Exploración (Catálogo / Inicio)**: El cliente ingresa a la tienda, explora los productos destacados y navega por el catálogo usando filtros de categoría o marca.
+2. **Detalle del Producto**: Al seleccionar un artículo, el cliente visualiza toda su información, elige las variantes deseadas (talle, color, peso) y lo agrega al carrito.
+3. **Carrito de Compras**: El usuario revisa sus productos, ajusta las cantidades o elimina ítems, y visualiza el subtotal de su pedido antes de avanzar.
+4. **Checkout (Invitado)**: El cliente completa su compra de forma rápida y sin necesidad de crear una cuenta. Ingresa sus datos de contacto, dirección de envío y selecciona el método de pago en un proceso optimizado.
+5. **Confirmación y Seguimiento**: Una vez finalizada la orden, se genera un código único de pedido. A través de la pantalla de "Seguimiento", el cliente puede consultar en cualquier momento el estado de su orden ingresando dicho código, viendo información actualizada sobre pagos y envíos.
+
 ## Integración con el backend
 
 El frontend consume la **API REST** del backend (Laravel) mediante peticiones HTTP en formato JSON.
